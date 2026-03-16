@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PowerShell-les2</title>
+<style>
+:root {
+  --bg: #0b0b0b;
+  --panel: #151515;
+  --panel-2: #1d1d1d;
+  --text: #f5f5f5;
+  --muted: #bdbdbd;
+  --line: #2b2b2b;
+  --accent: #7dd3fc;
+  --accent-2: #93c5fd;
+  --code: #081632;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(11,11,11,0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar {
+  width: min(1220px, 94%);
+  margin: 0 auto;
+  padding: 14px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+.title { font-size: 1.35rem; font-weight: 700; color: var(--accent); }
+.subtitle { color: var(--muted); font-size: 0.95rem; }
+.search { flex: 1 1 320px; max-width: 440px; }
+.search input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  outline: none;
+}
+.search input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(125,211,252,.15);
+}
+.wrap {
+  width: min(1220px, 94%);
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+}
+aside {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+}
+aside h2 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: var(--accent);
+}
+nav a, .quick-links a, .pager a {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+nav a:hover, .quick-links a:hover, .pager a:hover {
+  background: var(--panel-2);
+  color: var(--accent);
+}
+main { display: grid; gap: 18px; }
+section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+}
+section h2 { margin-top: 0; color: var(--accent); }
+section h3 { margin-top: 24px; margin-bottom: 8px; color: var(--accent-2); }
+p, li { color: var(--text); }
+.muted { color: var(--muted); }
+code {
+  font-family: Consolas, Monaco, monospace;
+  background: rgba(255,255,255,.06);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+pre {
+  background: var(--code);
+  color: #e5e7eb;
+  padding: 14px;
+  border-radius: 14px;
+  overflow-x: auto;
+  border: 1px solid #1f2937;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.card {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+}
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(125,211,252,.12);
+  color: var(--accent);
+  border: 1px solid rgba(125,211,252,.25);
+  border-radius: 999px;
+  font-size: .82rem;
+  margin-right: 6px;
+  margin-bottom: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  border: 1px solid var(--line);
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+th { background: var(--panel-2); }
+.hidden { display: none !important; }
+.pager {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pager a {
+  display: inline-block;
+  margin-bottom: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+footer {
+  margin-top: 18px;
+  color: var(--muted);
+  text-align: center;
+  font-size: .92rem;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  aside { position: static; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div>
+      <div class="title">PowerShell-les2</div>
+      <div class="subtitle">PowerShell – objecten, filtering en pipeline</div>
+    </div>
+    <div class="search">
+      <input id="searchInput" type="text" placeholder="Zoek snel iets..." />
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="layout">
+    <aside>
+      <h2>Navigatie</h2><nav><a href="index.html">Homepagina</a>
+<a href="les-1-scripting.html">Les 1 Scripting</a>
+<a href="les-2-scripting.html">Les 2 Scripting</a>
+<a href="les-3-scripting.html">Les 3 Scripting</a>
+<a href="powershell-les1.html">PowerShell-les1</a>
+<a href="powershell-les2.html">PowerShell-les2</a></nav>
+    </aside>
+    <main>
+      
+<section id="overzicht" data-search="powershell les2 whatif confirm objecten get-member where-object select-object sort-object">
+  <h2>PowerShell-les2</h2>
+  <p>Deze tweede PowerShell-les gaat over de kern van PowerShell: veilig uitvoeren, objecten begrijpen en via de pipeline filteren, selecteren en sorteren.</p>
+  <div class="pager">
+    <a href="index.html">← Homepagina</a>
+    <a href="powershell-les1.html">← Vorige</a>
+  </div>
+</section>
+
+<section id="whatif-confirm" data-search="whatif confirm test-connection">
+  <h2>WhatIf, Confirm en Test-Connection</h2>
+  <pre>Get-Process Code | Stop-Process -WhatIf
+Get-Process Code | Stop-Process -Confirm
+Test-Connection www.google.be</pre>
+  <ul>
+    <li><code>-WhatIf</code> toont wat een commando zou doen.</li>
+    <li><code>-Confirm</code> vraagt bevestiging voor uitvoering.</li>
+    <li><code>Test-Connection</code> is het PowerShell-alternatief voor ping.</li>
+  </ul>
+  <p>Dit is het openingsblok van les 2. fileciteturn2file4L13-L15</p>
+</section>
+
+<section id="objecten" data-search="objecten collection object property method output table collection">
+  <h2>Alles is een object</h2>
+  <p>PowerShell werkt met objecten, niet gewoon met losse tekst.</p>
+  <ul>
+    <li>Elk commando genereert een output van objecten.</li>
+    <li>Die output wordt in het geheugen opgebouwd.</li>
+    <li>Je kan objecten via de pipeline doorgeven, tonen, selecteren, filteren, sorteren en groeperen.</li>
+  </ul>
+
+  <table>
+    <tr><th>Term</th><th>Betekenis</th></tr>
+    <tr><td>Collection</td><td>Verzameling objecten / tabel</td></tr>
+    <tr><td>Object</td><td>Eén element / rij</td></tr>
+    <tr><td>Property</td><td>Data-element / kolom</td></tr>
+    <tr><td>Method</td><td>Actie die je met een object kan doen</td></tr>
+  </table>
+  <p>Deze terminologie wordt letterlijk in de les uitgelegd. fileciteturn2file4L17-L22</p>
+</section>
+
+<section id="get-member" data-search="get-member type properties methods events">
+  <h2>Get-Member</h2>
+  <pre>Get-Process | Get-Member
+Get-Service | Get-Member</pre>
+  <ul>
+    <li>Toont het type van het object.</li>
+    <li>Toont properties, methods en events.</li>
+    <li>Het type hangt af van het laatste commando vóór <code>Get-Member</code>.</li>
+    <li>Sommige commando’s geven geen output, dus dan werkt <code>Get-Member</code> niet.</li>
+  </ul>
+  <p>De slides waarschuwen ook dat <code>Get-Member</code> vaak méér properties toont dan je normaal op het scherm ziet. fileciteturn2file4L23-L26</p>
+</section>
+
+<section id="sort-select-where" data-search="sort-object select-object where-object filters comparisons like match">
+  <h2>Sort-Object, Select-Object en Where-Object</h2>
+
+  <h3>Sort-Object</h3>
+  <pre>Get-Process | Sort-Object CPU -Descending
+Get-Process | Sort-Object CPU, ProcessName</pre>
+  <p>Sorteren verandert het objecttype niet. Je kan op meerdere properties sorteren. fileciteturn2file4L27-L28</p>
+
+  <h3>Select-Object</h3>
+  <pre>Get-Process | Select-Object Name, Id, CPU
+Get-Process | Sort-Object CPU -Descending | Select-Object Name, Id, CPU</pre>
+  <p><code>Select-Object</code> maakt nieuwe outputobjecten aan en wordt gebruikt om enkel de properties te behouden die je wil tonen of verder gebruiken. fileciteturn2file4L29-L31</p>
+
+  <h3>Where-Object</h3>
+  <pre>Get-Service | Where-Object { $_.Status -eq "Running" }
+Get-Process | Where-Object { $_.Name -like "*shell*" }</pre>
+  <p><code>$_</code> verwijst naar het huidige object in de pipeline. Properties spreek je aan met de puntoperator. fileciteturn2file4L32-L35</p>
+
+  <h3>Vergelijkingsoperatoren</h3>
+  <pre>-eq   gelijk
+-ne   niet gelijk
+-gt   groter dan
+-lt   kleiner dan
+-ge   groter of gelijk
+-le   kleiner of gelijk
+-like
+-notlike
+-match
+-notmatch
+-and
+-or
+-not</pre>
+  <p>Deze operatoren worden in Where-Object gebruikt voor filtercriteria. fileciteturn2file4L33-L35</p>
+</section>
+
+<section id="filtervoorbeelden" data-search="filter voorbeelden get-childitem attributes d get-service running canpauseandcontinue">
+  <h2>Filtervoorbeelden</h2>
+  <pre>Get-ChildItem .\Documents | Where-Object { $_.Attributes -eq "d" }
+
+Get-Service | Where-Object {
+  $_.Status -eq "Running" -and $_.CanPauseAndContinue -eq $true
+}
+
+Get-Process | Where-Object { $_.Name -like "*shell*" }</pre>
+  <p>Die drie voorbeelden komen rechtstreeks uit de lesvoorbeelden. fileciteturn2file4L36-L38</p>
+</section>
+
+<section id="van-terminal-naar-script" data-search="terminal naar script ps1 arrays condities lussen">
+  <h2>Van terminal naar script</h2>
+  <p>Een PowerShell-script is een verzameling commando’s in een tekstbestand met de extensie <code>.ps1</code>. Vanaf hier bouw je verder met variabelen, arrays, condities en lussen. Dat wordt in de tweede helft van de les aangekondigd. fileciteturn2file4L39-L40</p>
+  <pre># hello.ps1
+$name = Read-Host "Wat is jouw naam?"
+Write-Output "Hallo $name"</pre>
+</section>
+
+      <footer>Persoonlijke scripting wiki – Nightraver</footer>
+    </main>
+  </div>
+</div>
+
+<script>
+const input = document.getElementById('searchInput');
+if (input) {
+  const sections = Array.from(document.querySelectorAll('main section'));
+  input.addEventListener('input', () => {
+    const q = input.value.toLowerCase().trim();
+    sections.forEach(section => {
+      const text = (section.innerText + ' ' + (section.dataset.search || '')).toLowerCase();
+      section.classList.toggle('hidden', q && !text.includes(q));
+    });
+  });
+}
+</script>
+
+</body>
+</html>
