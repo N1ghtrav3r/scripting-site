@@ -7,7 +7,7 @@ De focus ligt op eenvoud, snelheid en duidelijke codevoorbeelden.
 
 ## 🌐 Live website
 
-👉 https://nightraver.github.io/scripting-site/
+👉 https://n1ghtrav3r.github.io/scripting-site/
 
 *(Pas deze link aan indien je repository naam anders is)*
 
