@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>basics powershell 4</title>
+<style>
+body{background:#000;color:#fff;font-family:Arial;padding:30px;line-height:1.6}
+pre{background:#111;padding:12px;border-radius:6px;overflow:auto}
+h1,h2{color:#7dd3fc}
+a{color:#7dd3fc}
+</style>
+</head>
+<body>
+
+<h1>Basics PowerShell 4</h1>
+
+<h2>Wat is PowerShell?</h2>
+<p>PowerShell is een command line shell en scripting taal van Microsoft.
+In tegenstelling tot Bash werkt PowerShell met <b>objecten</b> in plaats van pure tekst.</p>
+
+<h2>Variabelen</h2>
+<pre>
+$naam = "Gunther"
+$leeftijd = 30
+Write-Output "Hallo $naam"
+</pre>
+
+<h2>Input vragen</h2>
+<pre>
+$naam = Read-Host "Wat is je naam"
+Write-Output "Welkom $naam"
+</pre>
+
+<h2>Rekenen</h2>
+<pre>
+$a = 5
+$b = 3
+$c = $a + $b
+Write-Output $c
+</pre>
+
+<h2>If statement</h2>
+<pre>
+$getal = 10
+
+if ($getal -gt 5) {
+ Write-Output "Groter dan 5"
+}
+</pre>
+
+<h2>If else</h2>
+<pre>
+if ($getal -gt 5) {
+ Write-Output "Groter"
+}
+else {
+ Write-Output "Kleiner"
+}
+</pre>
+
+<h2>Vergelijkingsoperatoren</h2>
+<ul>
+<li>-eq = gelijk</li>
+<li>-ne = niet gelijk</li>
+<li>-gt = groter dan</li>
+<li>-lt = kleiner dan</li>
+<li>-ge = groter of gelijk</li>
+<li>-le = kleiner of gelijk</li>
+</ul>
+
+<h2>For loop</h2>
+<pre>
+for ($i=1; $i -le 5; $i++) {
+ Write-Output "Nummer $i"
+}
+</pre>
+
+<h2>Foreach</h2>
+<pre>
+$lijst = 1,2,3,4
+foreach ($item in $lijst) {
+ Write-Output $item
+}
+</pre>
+
+<h2>While loop</h2>
+<pre>
+$i = 1
+while ($i -le 5) {
+ Write-Output $i
+$i++
+}
+</pre>
+
+<h2>Functie maken</h2>
+<pre>
+function TelOp {
+ param($a,$b)
+ return $a + $b
+}
+
+$result = TelOp 5 10
+Write-Output $result
+</pre>
+
+<br>
+<a href="index.html">Terug naar index</a>
+
+</body>
+</html>
